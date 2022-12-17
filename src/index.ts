@@ -4,6 +4,7 @@ const input = document.getElementById("todo-input")! as HTMLInputElement; // exc
 // note this is before run-time (working with a value that may or may not exist)
 
 const form = document.getElementById("todo-form")! as HTMLFormElement; // note the benefit of using "form" with querySelector
+const list = document.getElementById("todo-list")! as HTMLUListElement;
 
 // btn.addEventListener("click", () => {
 //   alert(input.value);
@@ -12,8 +13,21 @@ const form = document.getElementById("todo-form")! as HTMLFormElement; // note t
 
 const handleSubmit = (e: SubmitEvent): void => {
   e.preventDefault();
-  console.log("hello world");
-}; // would need to specifify the SubmitEvent in this case
+
+  const newTodoText: string = input.value;
+  const newLI = document.createElement("li");
+
+  newLI.innerHTML = newTodoText;
+  list.append(newLI); // note how also could have used a question mark
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  newLI.append(checkbox);
+
+  input.value = "";
+};
+
+// would need to specifify the SubmitEvent in this case
 
 form.addEventListener("submit", handleSubmit);
 
@@ -23,4 +37,4 @@ form.addEventListener("submit", handleSubmit);
 
 // const numChars = (mystery as string).length; // does not change the type of mystery -- just in this specific context it is treated as a string
 
-// need to remember to recompile when making changes
+// need to remember to recompile when making changes (VERY IMPORTANT)
