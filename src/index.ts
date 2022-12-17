@@ -25,6 +25,10 @@ function readTodos(): Todo[] {
   return JSON.parse(todosJSON);
 }
 
+function saveTodos(): void {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
 function handleSubmit(e: SubmitEvent): void {
   e.preventDefault();
 
@@ -36,7 +40,7 @@ function handleSubmit(e: SubmitEvent): void {
   createTodo(newTodo);
   todos.push(newTodo);
 
-  localStorage.setItem("todos", JSON.stringify(todos));
+  saveTodos();
 
   input.value = "";
 }
@@ -48,6 +52,11 @@ function createTodo(todo: Todo): void {
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
+  checkbox.checked = todo.completed;
+  checkbox.addEventListener("change", () => {
+    todo.completed = checkbox.checked;
+    saveTodos();
+  }); // adding the eventListener to the li.checkbox
   newLI.append(checkbox);
 }
 
