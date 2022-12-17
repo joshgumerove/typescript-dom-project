@@ -3,10 +3,19 @@ const btn: HTMLElement = document.getElementById("btn")!; // note the not null o
 const input = document.getElementById("todo-input")! as HTMLInputElement; // exclamation mark means it is certain to exist -- note how we cast the value here
 // note this is before run-time (working with a value that may or may not exist)
 
-btn.addEventListener("click", () => {
-  alert(input.value);
-  input.value = "";
-});
+const form = document.getElementById("todo-form")! as HTMLFormElement; // note the benefit of using "form" with querySelector
+
+// btn.addEventListener("click", () => {
+//   alert(input.value);
+//   input.value = "";
+// });
+
+const handleSubmit = (e: SubmitEvent): void => {
+  e.preventDefault();
+  console.log("hello world");
+}; // would need to specifify the SubmitEvent in this case
+
+form.addEventListener("submit", handleSubmit);
 
 // note the type assertion syntax
 
