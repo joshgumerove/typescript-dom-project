@@ -1,3 +1,10 @@
+interface Todo {
+  text: string;
+  completed: boolean;
+}
+
+const todos: Todo[] = [];
+
 const btn: HTMLElement = document.getElementById("btn")!; // note the not null operator at the end
 
 const input = document.getElementById("todo-input")! as HTMLInputElement; // exclamation mark means it is certain to exist -- note how we cast the value here
@@ -6,28 +13,28 @@ const input = document.getElementById("todo-input")! as HTMLInputElement; // exc
 const form = document.getElementById("todo-form")! as HTMLFormElement; // note the benefit of using "form" with querySelector
 const list = document.getElementById("todo-list")! as HTMLUListElement;
 
-// btn.addEventListener("click", () => {
-//   alert(input.value);
-//   input.value = "";
-// });
-
-const handleSubmit = (e: SubmitEvent): void => {
+function handleSubmit(e: SubmitEvent): void {
   e.preventDefault();
 
-  const newTodoText: string = input.value;
-  const newLI = document.createElement("li");
+  const newTodo: Todo = {
+    text: input.value,
+    completed: false,
+  };
 
-  newLI.innerHTML = newTodoText;
-  list.append(newLI); // note how also could have used a question mark
+  todos.push(newTodo);
+  createTodo(newTodo);
+  input.value = "";
+}
+
+function createTodo(todo: Todo): void {
+  const newLI = document.createElement("li");
+  newLI.innerHTML = todo.text;
+  list.append(newLI);
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   newLI.append(checkbox);
-
-  input.value = "";
-};
-
-// would need to specifify the SubmitEvent in this case
+}
 
 form.addEventListener("submit", handleSubmit);
 
