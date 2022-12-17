@@ -3,7 +3,7 @@ interface Todo {
   completed: boolean;
 }
 
-const todos: Todo[] = [];
+const todos: Todo[] = readTodos();
 
 const btn: HTMLElement = document.getElementById("btn")!; // note the not null operator at the end
 
@@ -13,6 +13,18 @@ const input = document.getElementById("todo-input")! as HTMLInputElement; // exc
 const form = document.getElementById("todo-form")! as HTMLFormElement; // note the benefit of using "form" with querySelector
 const list = document.getElementById("todo-list")! as HTMLUListElement;
 
+// todos.forEach((todo) => createTodo(todo));
+
+todos.forEach(createTodo); // short-hand syntax
+
+function readTodos(): Todo[] {
+  const todosJSON = localStorage.getItem("todos");
+  if (todosJSON === null) {
+    return [];
+  }
+  return JSON.parse(todosJSON);
+}
+
 function handleSubmit(e: SubmitEvent): void {
   e.preventDefault();
 
@@ -21,8 +33,11 @@ function handleSubmit(e: SubmitEvent): void {
     completed: false,
   };
 
-  todos.push(newTodo);
   createTodo(newTodo);
+  todos.push(newTodo);
+
+  localStorage.setItem("todos", JSON.stringify(todos));
+
   input.value = "";
 }
 

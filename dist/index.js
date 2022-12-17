@@ -1,18 +1,28 @@
 "use strict";
-const todos = [];
+const todos = readTodos();
 const btn = document.getElementById("btn"); // note the not null operator at the end
 const input = document.getElementById("todo-input"); // exclamation mark means it is certain to exist -- note how we cast the value here
 // note this is before run-time (working with a value that may or may not exist)
 const form = document.getElementById("todo-form"); // note the benefit of using "form" with querySelector
 const list = document.getElementById("todo-list");
+// todos.forEach((todo) => createTodo(todo));
+todos.forEach(createTodo); // short-hand syntax
+function readTodos() {
+    const todosJSON = localStorage.getItem("todos");
+    if (todosJSON === null) {
+        return [];
+    }
+    return JSON.parse(todosJSON);
+}
 function handleSubmit(e) {
     e.preventDefault();
     const newTodo = {
         text: input.value,
         completed: false,
     };
-    todos.push(newTodo);
     createTodo(newTodo);
+    todos.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todos));
     input.value = "";
 }
 function createTodo(todo) {
